@@ -2,7 +2,7 @@
 
 **GPU-Accelerated Simulator for Photonic Time Crystals and Floquet Quantum Systems**
 
-[![CI](https://github.com/yourusername/chronophoton/workflows/CI/badge.svg)](https://github.com/yourusername/chronophoton/actions)
+[![CI](https://github.com/krdashev/chronophoton/workflows/CI/badge.svg)](https://github.com/krdashev/chronophoton/actions)
 [![License](https://img.shields.io/badge/license-MIT%2FApache--2.0-blue.svg)](LICENSE)
 [![Docs](https://img.shields.io/badge/docs-latest-blue.svg)](https://docs.rs/chronophoton)
 
@@ -106,7 +106,7 @@ at your option.
 
 If you use ChronoPhoton in your research, please cite:
 
-```bibtex
+```
 @software{chronophoton,
   title = {ChronoPhoton: GPU-Accelerated Photonic Time Crystal Simulator},
   author = {ChronoPhoton Contributors},
