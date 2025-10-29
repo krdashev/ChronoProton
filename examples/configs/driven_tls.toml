@@ -1,0 +1,29 @@
+[simulation]
+name = "driven_tls"
+duration = 50.0
+timestep = 0.1
+integrator = "rk4"
+
+[system]
+hilbert_dim = 2
+hamiltonian = "driven_tls"
+
+[system.parameters]
+omega_0 = 5.0
+omega_d = 5.0
+Omega_R = 0.5
+
+[lindblad]
+enabled = false
+
+[observables]
+list = ["population"]
+save_interval = 1.0
+
+[gpu]
+enabled = false
+device = "auto"
+batch_size = 256
+
+[parameter_sweep]
+enabled = false
