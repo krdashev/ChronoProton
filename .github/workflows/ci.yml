@@ -123,16 +123,6 @@ jobs:
       - name: Run benchmarks
         run: cargo bench --no-fail-fast
 
-      - name: Store benchmark result
-        uses: benchmark-action/github-action-benchmark@v1
-        with:
-          tool: 'cargo'
-          output-file-path: target/criterion/output.txt
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          auto-push: true
-          alert-threshold: '150%'
-          comment-on-alert: true
-
   security:
     name: Security Audit
     runs-on: ubuntu-latest

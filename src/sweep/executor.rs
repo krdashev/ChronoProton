@@ -1,4 +1,3 @@
-
 pub struct ParameterSweep {
     #[allow(dead_code)]
     batch_size: usize,
