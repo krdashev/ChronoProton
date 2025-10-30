@@ -1,4 +1,3 @@
-//! Built-in quantum system implementations
 
 pub mod driven_tls;
 pub mod cavity;

@@ -1,4 +1,3 @@
-//! Data management: configuration, export, checkpointing
 
 pub mod checkpoint;
 pub mod config;

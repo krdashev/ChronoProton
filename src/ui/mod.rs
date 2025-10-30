@@ -1,4 +1,3 @@
-//! User interface modules
 
 pub mod cli;
 pub mod gui;

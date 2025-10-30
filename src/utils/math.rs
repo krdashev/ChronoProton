@@ -1,9 +1,7 @@
-//! Mathematical utilities and helper functions
 
 use ndarray::{Array2, ArrayView2};
 use num_complex::Complex64;
 
-/// Check if a matrix is Hermitian within a tolerance
 pub fn is_hermitian(matrix: &ArrayView2<Complex64>, tol: f64) -> bool {
     if matrix.nrows() != matrix.ncols() {
         return false;
@@ -21,14 +19,12 @@ pub fn is_hermitian(matrix: &ArrayView2<Complex64>, tol: f64) -> bool {
     true
 }
 
-/// Check if a matrix is unitary within a tolerance
 pub fn is_unitary(matrix: &ArrayView2<Complex64>, tol: f64) -> bool {
     let dim = matrix.nrows();
     if dim != matrix.ncols() {
         return false;
     }
 
-    // Compute U^† U
     let mut result = Array2::zeros((dim, dim));
     for i in 0..dim {
         for j in 0..dim {
@@ -40,7 +36,6 @@ pub fn is_unitary(matrix: &ArrayView2<Complex64>, tol: f64) -> bool {
         }
     }
 
-    // Check if result is identity
     for i in 0..dim {
         for j in 0..dim {
             let expected = if i == j { Complex64::new(1.0, 0.0) } else { Complex64::new(0.0, 0.0) };
@@ -53,7 +48,6 @@ pub fn is_unitary(matrix: &ArrayView2<Complex64>, tol: f64) -> bool {
     true
 }
 
-/// Compute the trace of a matrix
 pub fn trace(matrix: &ArrayView2<Complex64>) -> Complex64 {
     let mut sum = Complex64::new(0.0, 0.0);
     for i in 0..matrix.nrows().min(matrix.ncols()) {
@@ -62,12 +56,10 @@ pub fn trace(matrix: &ArrayView2<Complex64>) -> Complex64 {
     sum
 }
 
-/// Compute the Frobenius norm of a matrix
 pub fn frobenius_norm(matrix: &ArrayView2<Complex64>) -> f64 {
     matrix.iter().map(|x| x.norm_sqr()).sum::<f64>().sqrt()
 }
 
-/// Generate an identity matrix of given dimension
 pub fn identity(dim: usize) -> Array2<Complex64> {
     let mut result = Array2::zeros((dim, dim));
     for i in 0..dim {
@@ -83,7 +75,7 @@ mod tests {
 
     #[test]
     fn test_is_hermitian() {
-        // Pauli X matrix
+
         let mut pauli_x = Array2::zeros((2, 2));
         pauli_x[[0, 1]] = Complex64::new(1.0, 0.0);
         pauli_x[[1, 0]] = Complex64::new(1.0, 0.0);

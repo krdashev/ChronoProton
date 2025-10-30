@@ -1,6 +1,4 @@
-//! Parameter representation and manipulation
 
-/// Parameter specification for sweeps
 #[derive(Debug, Clone)]
 pub struct Parameter {
     pub name: String,

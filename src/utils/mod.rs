@@ -1,4 +1,3 @@
-//! Utility modules for ChronoPhoton
 
 pub mod error;
 pub mod logger;

@@ -1,8 +1,6 @@
-//! GPU backend abstraction layer
 
 use crate::utils::{Error, Result};
 
-/// GPU device information
 #[derive(Debug, Clone)]
 pub struct GpuDevice {
     pub name: String,
@@ -19,7 +17,6 @@ pub enum BackendType {
     Cpu,
 }
 
-/// Main GPU backend interface
 pub struct GpuBackend {
     device: Option<wgpu::Device>,
     queue: Option<wgpu::Queue>,
@@ -27,7 +24,7 @@ pub struct GpuBackend {
 }
 
 impl GpuBackend {
-    /// Initialize GPU backend
+
     pub async fn new(enabled: bool) -> Result<Self> {
         if !enabled {
             return Ok(Self {
@@ -37,7 +34,6 @@ impl GpuBackend {
             });
         }
 
-        // TODO: Implement proper GPU initialization
         tracing::info!("GPU backend requested but not yet implemented");
 
         Ok(Self {
@@ -47,14 +43,12 @@ impl GpuBackend {
         })
     }
 
-    /// Check if GPU is available and enabled
     pub fn is_enabled(&self) -> bool {
         self.enabled && self.device.is_some()
     }
 
-    /// Get available GPU devices
     pub async fn available_devices() -> Result<Vec<GpuDevice>> {
-        // TODO: Enumerate actual devices
+
         Ok(vec![GpuDevice {
             name: "CPU Fallback".to_string(),
             backend_type: BackendType::Cpu,

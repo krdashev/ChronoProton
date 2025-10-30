@@ -1,4 +1,3 @@
-//! GPU acceleration backend
 
 pub mod backend;
 pub mod batch;

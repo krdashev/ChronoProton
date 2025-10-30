@@ -1,10 +1,5 @@
-//! ChronoPhoton CLI and GUI entry point
-
 use chronophoton::{
-    data::config::Config,
-    simulation::SimulationBuilder,
-    ui::{cli::Cli, gui::App},
-    utils::logger,
+    data::config::Config, simulation::SimulationBuilder, ui::gui::App, utils::logger,
 };
 use clap::Parser;
 use std::path::PathBuf;
@@ -19,40 +14,29 @@ struct Args {
 
 #[derive(Parser, Debug)]
 enum Commands {
-    /// Run a simulation from a configuration file
     Run {
-        /// Path to configuration file (TOML/YAML)
         #[arg(short, long)]
         config: PathBuf,
 
-        /// Override GPU setting
         #[arg(long)]
         gpu: Option<bool>,
 
-        /// Output file for results
         #[arg(short, long)]
         output: Option<PathBuf>,
     },
 
-    /// Launch the GUI
     Gui {
-        /// Optional configuration file to load
         config: Option<PathBuf>,
     },
 
-    /// Validate a configuration file
     Validate {
-        /// Path to configuration file
         config: PathBuf,
     },
 
-    /// Generate a template configuration file
     Template {
-        /// Output path for template
         #[arg(short, long, default_value = "config.toml")]
         output: PathBuf,
 
-        /// Template type (driven_tls, cavity, coupled_cavities)
         #[arg(short, long, default_value = "driven_tls")]
         template_type: String,
     },
@@ -60,13 +44,16 @@ enum Commands {
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
-    // Initialize logger
     logger::init()?;
 
     let args = Args::parse();
 
     match args.command {
-        Commands::Run { config, gpu, output } => {
+        Commands::Run {
+            config,
+            gpu,
+            output,
+        } => {
             tracing::info!("Loading configuration from {:?}", config);
             let mut cfg = Config::from_file(&config)?;
 
@@ -103,7 +90,7 @@ async fn main() -> anyhow::Result<()> {
             eframe::run_native(
                 "ChronoPhoton",
                 native_options,
-                Box::new(|_cc| Box::new(app)),
+                Box::new(|_cc| Ok(Box::new(app))),
             )
             .map_err(|e| anyhow::anyhow!("GUI error: {}", e))?;
         }
@@ -122,7 +109,10 @@ async fn main() -> anyhow::Result<()> {
             }
         }
 
-        Commands::Template { output, template_type } => {
+        Commands::Template {
+            output,
+            template_type,
+        } => {
             tracing::info!("Generating template: {}", template_type);
             let template = Config::generate_template(&template_type)?;
             template.save(&output)?;

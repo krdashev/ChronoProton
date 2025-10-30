@@ -1,10 +1,8 @@
-//! Simulation execution engine
 
 use crate::core::{integrator, Hamiltonian, IntegratorType, Observable, QuantumState};
 use crate::simulation::SimulationResults;
 use crate::utils::Result;
 
-/// Main simulation runner
 pub struct SimulationRunner {
     hamiltonian: Box<dyn Hamiltonian>,
     initial_state: QuantumState,
@@ -38,7 +36,6 @@ impl SimulationRunner {
         })
     }
 
-    /// Run the simulation
     pub fn run(&self) -> Result<SimulationResults> {
         tracing::info!("Starting simulation");
 
@@ -49,13 +46,11 @@ impl SimulationRunner {
         for step in 0..num_steps {
             let t = step as f64 * self.timestep;
 
-            // Record observables
             for (name, observable) in &self.observables {
                 let value = observable.expectation_pure(&state);
                 results.add_observable(name, t, value);
             }
 
-            // Evolve state
             self.integrator
                 .step(self.hamiltonian.as_ref(), &mut state, t, self.timestep)?;
 

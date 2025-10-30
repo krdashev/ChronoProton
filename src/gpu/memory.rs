@@ -1,8 +1,6 @@
-//! GPU memory management
 
 use crate::utils::Result;
 
-/// GPU memory buffer wrapper
 pub struct GpuBuffer {
     size_bytes: usize,
 }
@@ -17,7 +15,6 @@ impl GpuBuffer {
     }
 }
 
-/// Memory pool for efficient allocation
 pub struct GpuMemoryPool {
     total_allocated: usize,
 }

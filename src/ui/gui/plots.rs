@@ -1,6 +1,4 @@
-//! Plotting widgets
 
-/// Real-time plot widget
 pub struct PlotWidget;
 
 impl PlotWidget {

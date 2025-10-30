@@ -1,30 +1,30 @@
-//! Simulation checkpoint management
 
 use crate::utils::Result;
+use bincode::{Decode, Encode};
 use serde::{Deserialize, Serialize};
 use std::path::Path;
 
-/// Simulation checkpoint
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, Encode, Decode)]
 pub struct Checkpoint {
     pub time: f64,
     pub step: usize,
-    // TODO: Add state data
+
 }
 
 impl Checkpoint {
-    /// Save checkpoint to file
+
     pub fn save(&self, path: &Path) -> Result<()> {
-        let data = bincode::serialize(self)
+        let config = bincode::config::standard();
+        let data = bincode::encode_to_vec(self, config)
             .map_err(|e| crate::utils::Error::Serialization(e.to_string()))?;
         std::fs::write(path, data)?;
         Ok(())
     }
 
-    /// Load checkpoint from file
     pub fn load(path: &Path) -> Result<Self> {
         let data = std::fs::read(path)?;
-        let checkpoint = bincode::deserialize(&data)
+        let config = bincode::config::standard();
+        let (checkpoint, _) = bincode::decode_from_slice(&data, config)
             .map_err(|e| crate::utils::Error::Serialization(e.to_string()))?;
         Ok(checkpoint)
     }

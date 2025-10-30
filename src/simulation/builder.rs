@@ -1,11 +1,9 @@
-//! Simulation builder pattern implementation
 
 use crate::core::{Hamiltonian, Integrator, IntegratorType, Observable, QuantumState};
 use crate::data::Config;
 use crate::simulation::{SimulationResults, SimulationRunner};
 use crate::utils::{Error, Result};
 
-/// Builder for creating simulations
 pub struct SimulationBuilder {
     hamiltonian: Option<Box<dyn Hamiltonian>>,
     initial_state: Option<QuantumState>,
@@ -96,9 +94,8 @@ impl SimulationBuilder {
         )
     }
 
-    /// Build from configuration file
     pub fn from_config(_config: &Config) -> Result<SimulationRunner> {
-        // TODO: Implement configuration parsing
+
         Err(Error::NotImplemented("from_config".to_string()))
     }
 }

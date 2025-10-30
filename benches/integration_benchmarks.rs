@@ -1,4 +1,3 @@
-//! Integration benchmarks
 
 use chronophoton::core::systems::DrivenTLS;
 use chronophoton::core::{QuantumState, IntegratorType};

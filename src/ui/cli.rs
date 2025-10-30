@@ -1,6 +1,4 @@
-//! Command-line interface
 
-/// CLI application state
 pub struct Cli;
 
 impl Cli {

@@ -1,8 +1,6 @@
-//! Parameter sweep executor
 
 use crate::utils::Result;
 
-/// Parameter sweep configuration
 pub struct ParameterSweep {
     batch_size: usize,
 }

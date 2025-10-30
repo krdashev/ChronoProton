@@ -1,17 +1,8 @@
-//! Driven cavity systems (parametric oscillators)
 
 use ndarray::Array2;
 use num_complex::Complex64;
 use crate::core::Hamiltonian;
 
-/// Parametrically driven cavity Hamiltonian
-///
-/// H(t) = ωc a† a + g cos(ωp t) (a†² + a²)
-///
-/// # Parameters
-/// - `omega_c`: Cavity frequency
-/// - `omega_p`: Pump frequency
-/// - `g`: Parametric coupling strength
 pub struct DrivenCavity {
     pub omega_c: f64,
     pub omega_p: f64,
@@ -20,7 +11,7 @@ pub struct DrivenCavity {
 }
 
 impl DrivenCavity {
-    /// Create a new driven cavity with Fock space truncation
+
     pub fn new(omega_c: f64, omega_p: f64, g: f64, dim: usize) -> Self {
         Self {
             omega_c,
@@ -41,12 +32,10 @@ impl Hamiltonian for DrivenCavity {
 
         let drive = self.g * (self.omega_p * t).cos();
 
-        // Diagonal: ωc n
         for n in 0..self.dim {
             out[[n, n]] = Complex64::new(self.omega_c * n as f64, 0.0);
         }
 
-        // Parametric term: a†² and a²
         for n in 0..self.dim - 2 {
             let amp = ((n + 1) * (n + 2)) as f64;
             out[[n + 2, n]] += Complex64::new(drive * amp.sqrt(), 0.0);

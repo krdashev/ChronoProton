@@ -13,7 +13,11 @@ categories = ["science", "simulation"]
 # Numerical computing
 ndarray = { version = "0.16.1", features = ["rayon", "serde"] }
 num-complex = "0.4"
-ndarray-linalg = { version = "0.17", features = ["openblas-static"] }
+# Note: ndarray-linalg with OpenBLAS doesn't build easily on Windows
+# For now, we'll use pure ndarray operations. To enable BLAS on Windows:
+# - Install Intel MKL or use ndarray-linalg with "intel-mkl" feature
+# - Or use vcpkg to install OpenBLAS and use "openblas-system" feature
+# ndarray-linalg = { version = "0.17", features = ["intel-mkl-static"] }
 
 # GPU acceleration
 wgpu = "27.0.1"
@@ -35,7 +39,9 @@ egui_plot = "0.34"
 serde = { version = "1.0", features = ["derive"] }
 toml = "0.9.8"
 serde_yaml = "0.9.34"
-hdf5 = "0.8"
+# HDF5 requires system installation on Windows. Optional for now.
+# To enable: install HDF5 from https://www.hdfgroup.org/downloads/hdf5/
+# hdf5 = { version = "0.8", optional = true }
 
 # Logging and error handling
 tracing = "0.1"

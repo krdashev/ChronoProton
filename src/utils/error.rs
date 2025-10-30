@@ -1,11 +1,8 @@
-//! Error types for ChronoPhoton
 
 use thiserror::Error;
 
-/// Result type alias using ChronoPhoton error type
 pub type Result<T> = std::result::Result<T, Error>;
 
-/// Main error type for ChronoPhoton
 #[derive(Error, Debug)]
 pub enum Error {
     #[error("Configuration error: {0}")]
@@ -43,22 +40,19 @@ pub enum Error {
 }
 
 impl Error {
-    /// Create a configuration error
+
     pub fn config(msg: impl Into<String>) -> Self {
         Error::Config(msg.into())
     }
 
-    /// Create a GPU error
     pub fn gpu(msg: impl Into<String>) -> Self {
         Error::Gpu(msg.into())
     }
 
-    /// Create a numerical error
     pub fn numerical(msg: impl Into<String>) -> Self {
         Error::Numerical(msg.into())
     }
 
-    /// Create a dimension mismatch error
     pub fn dimension_mismatch(expected: usize, actual: usize) -> Self {
         Error::DimensionMismatch { expected, actual }
     }

@@ -1,4 +1,3 @@
-//! GUI application using egui
 
 pub mod app;
 pub mod plots;

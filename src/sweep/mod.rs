@@ -1,4 +1,3 @@
-//! Parameter sweep functionality
 
 pub mod executor;
 pub mod parameter;

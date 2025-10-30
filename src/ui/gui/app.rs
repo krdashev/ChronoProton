@@ -1,9 +1,7 @@
-//! Main GUI application
 
 use crate::data::Config;
 use eframe::egui;
 
-/// Main GUI application
 pub struct App {
     config: Option<Config>,
 }
@@ -41,11 +39,11 @@ impl eframe::App for App {
             }
 
             if ui.button("Load Configuration").clicked() {
-                // TODO: File dialog
+
             }
 
             if ui.button("Run Simulation").clicked() {
-                // TODO: Run simulation
+
             }
         });
     }

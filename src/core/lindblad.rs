@@ -1,20 +1,18 @@
-//! Lindblad master equation for open quantum systems
 
 use ndarray::Array2;
 use num_complex::Complex64;
 use crate::core::{Hamiltonian, DensityMatrix};
 use crate::utils::Result;
 
-/// Lindblad operator (jump operator)
 pub struct LindbladOperator {
-    /// The operator L
+
     pub operator: Array2<Complex64>,
-    /// Decay rate γ
+
     pub rate: f64,
 }
 
 impl LindbladOperator {
-    /// Create a new Lindblad operator
+
     pub fn new(operator: Array2<Complex64>, rate: f64) -> Result<Self> {
         if rate < 0.0 {
             return Err(crate::utils::Error::InvalidParameter(
@@ -24,7 +22,6 @@ impl LindbladOperator {
         Ok(Self { operator, rate })
     }
 
-    /// Create annihilation operator (photon loss)
     pub fn annihilation(dim: usize, rate: f64) -> Result<Self> {
         let mut op = Array2::zeros((dim, dim));
         for n in 1..dim {
@@ -33,7 +30,6 @@ impl LindbladOperator {
         Self::new(op, rate)
     }
 
-    /// Create dephasing operator
     pub fn dephasing(dim: usize, rate: f64) -> Result<Self> {
         let mut op = Array2::zeros((dim, dim));
         for n in 0..dim {
@@ -43,7 +39,6 @@ impl LindbladOperator {
     }
 }
 
-/// Lindblad master equation solver
 pub struct LindbladSolver {
     hamiltonian: Box<dyn Hamiltonian>,
     lindblad_ops: Vec<LindbladOperator>,
@@ -51,7 +46,7 @@ pub struct LindbladSolver {
 }
 
 impl LindbladSolver {
-    /// Create a new Lindblad solver
+
     pub fn new(
         hamiltonian: Box<dyn Hamiltonian>,
         lindblad_ops: Vec<LindbladOperator>,
@@ -74,7 +69,6 @@ impl LindbladSolver {
         })
     }
 
-    /// Compute dρ/dt according to Lindblad equation
     pub fn compute_derivative(
         &self,
         rho: &DensityMatrix,
@@ -82,15 +76,12 @@ impl LindbladSolver {
     ) -> Result<Array2<Complex64>> {
         let mut drho_dt = Array2::zeros((self.dim, self.dim));
 
-        // Get Hamiltonian at time t
         let mut h = Array2::zeros((self.dim, self.dim));
         self.hamiltonian.compute(t, &mut h);
 
-        // Unitary part: -i/ℏ [H, ρ]
         let i = Complex64::new(0.0, 1.0);
         let rho_data = rho.data();
 
-        // Commutator [H, ρ] = Hρ - ρH
         let mut h_rho = Array2::zeros((self.dim, self.dim));
         let mut rho_h = Array2::zeros((self.dim, self.dim));
 
@@ -109,12 +100,10 @@ impl LindbladSolver {
 
         drho_dt = -i * (h_rho - rho_h);
 
-        // Dissipative part: Σ_k γ_k (L_k ρ L_k† - 1/2 {L_k† L_k, ρ})
         for lindblad_op in &self.lindblad_ops {
             let l = &lindblad_op.operator;
             let gamma = lindblad_op.rate;
 
-            // Compute L ρ L†
             let mut l_rho = Array2::zeros((self.dim, self.dim));
             for i in 0..self.dim {
                 for j in 0..self.dim {
@@ -137,7 +126,6 @@ impl LindbladSolver {
                 }
             }
 
-            // Compute L† L
             let mut ldag_l = Array2::zeros((self.dim, self.dim));
             for i in 0..self.dim {
                 for j in 0..self.dim {
@@ -149,7 +137,6 @@ impl LindbladSolver {
                 }
             }
 
-            // Anticommutator {L† L, ρ} = L† L ρ + ρ L† L
             let mut ldag_l_rho = Array2::zeros((self.dim, self.dim));
             let mut rho_ldag_l = Array2::zeros((self.dim, self.dim));
 
@@ -168,32 +155,31 @@ impl LindbladSolver {
 
             let anticommutator = ldag_l_rho + rho_ldag_l;
 
-            // Add dissipative term
-            drho_dt = drho_dt + gamma * (l_rho_ldag - 0.5 * anticommutator);
+            let term = l_rho_ldag - anticommutator.mapv(|x| x * 0.5);
+            drho_dt = drho_dt + term.mapv(|x| x * gamma);
         }
 
         Ok(drho_dt)
     }
 
-    /// Perform one RK4 step for density matrix evolution
     pub fn step(&self, rho: &mut DensityMatrix, t: f64, dt: f64) -> Result<()> {
         let k1 = self.compute_derivative(rho, t)?;
 
-        let mut rho2_data = rho.data().clone() + dt / 2.0 * &k1;
+        let mut rho2_data = rho.data().clone() + &k1.mapv(|x| x * Complex64::new(dt / 2.0, 0.0));
         let rho2 = DensityMatrix::new_unchecked(rho2_data.clone());
         let k2 = self.compute_derivative(&rho2, t + dt / 2.0)?;
 
-        let mut rho3_data = rho.data().clone() + dt / 2.0 * &k2;
+        let mut rho3_data = rho.data().clone() + &k2.mapv(|x| x * Complex64::new(dt / 2.0, 0.0));
         let rho3 = DensityMatrix::new_unchecked(rho3_data.clone());
         let k3 = self.compute_derivative(&rho3, t + dt / 2.0)?;
 
-        let mut rho4_data = rho.data().clone() + dt * &k3;
+        let mut rho4_data = rho.data().clone() + &k3.mapv(|x| x * Complex64::new(dt, 0.0));
         let rho4 = DensityMatrix::new_unchecked(rho4_data.clone());
         let k4 = self.compute_derivative(&rho4, t + dt)?;
 
-        let new_data = rho.data().clone() + dt / 6.0 * (k1 + 2.0 * k2 + 2.0 * k3 + k4);
+        let increment = k1 + k2.mapv(|x| x * 2.0) + k3.mapv(|x| x * 2.0) + k4;
+        let new_data = rho.data().clone() + &increment.mapv(|x| x * Complex64::new(dt / 6.0, 0.0));
 
-        // Enforce trace and hermiticity
         *rho = DensityMatrix::new_unchecked(new_data);
 
         Ok(())

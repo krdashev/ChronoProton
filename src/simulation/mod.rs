@@ -1,4 +1,3 @@
-//! Simulation orchestration and execution
 
 pub mod builder;
 pub mod results;

@@ -1,19 +1,15 @@
-//! Observable operators and expectation value calculation
 
 use ndarray::Array2;
 use num_complex::Complex64;
 use crate::core::{QuantumState, DensityMatrix};
 use crate::utils::Result;
 
-/// Trait for quantum observables
 pub trait Observable: Send + Sync {
-    /// Get the dimension of the observable
+
     fn dim(&self) -> usize;
 
-    /// Get the operator matrix
     fn matrix(&self) -> &Array2<Complex64>;
 
-    /// Compute expectation value for a pure state
     fn expectation_pure(&self, state: &QuantumState) -> Complex64 {
         let psi = state.data();
         let op = self.matrix();
@@ -28,7 +24,6 @@ pub trait Observable: Send + Sync {
         sum
     }
 
-    /// Compute expectation value for a mixed state
     fn expectation_mixed(&self, state: &DensityMatrix) -> Complex64 {
         let rho = state.data();
         let op = self.matrix();
@@ -44,14 +39,12 @@ pub trait Observable: Send + Sync {
     }
 }
 
-/// Wrapper for expectation values
 #[derive(Debug, Clone)]
 pub struct ExpectationValue {
     pub time: f64,
     pub value: Complex64,
 }
 
-/// Generic observable from a matrix
 pub struct MatrixObservable {
     matrix: Array2<Complex64>,
 }
@@ -72,7 +65,6 @@ impl Observable for MatrixObservable {
     }
 }
 
-/// Number operator for bosonic systems (a† a)
 pub struct NumberOperator {
     matrix: Array2<Complex64>,
 }
@@ -97,7 +89,6 @@ impl Observable for NumberOperator {
     }
 }
 
-/// Population operator for a specific level
 pub struct PopulationOperator {
     matrix: Array2<Complex64>,
     level: usize,
@@ -129,7 +120,6 @@ impl Observable for PopulationOperator {
     }
 }
 
-/// Coherence operator (off-diagonal elements)
 pub struct CoherenceOperator {
     matrix: Array2<Complex64>,
 }

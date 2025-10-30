@@ -1,10 +1,8 @@
-//! Configuration file parsing and validation
 
 use serde::{Deserialize, Serialize};
 use std::path::Path;
 use crate::utils::{Error, Result};
 
-/// Main configuration structure
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Config {
     pub simulation: SimulationConfig,
@@ -107,7 +105,7 @@ pub struct ParameterSweepConfig {
 }
 
 impl Config {
-    /// Load configuration from file
+
     pub fn from_file(path: &Path) -> Result<Self> {
         let contents = std::fs::read_to_string(path)?;
 
@@ -122,7 +120,6 @@ impl Config {
         Ok(config)
     }
 
-    /// Save configuration to file
     pub fn save(&self, path: &Path) -> Result<()> {
         let contents = if path.extension().and_then(|s| s.to_str()) == Some("toml") {
             toml::to_string_pretty(self)
@@ -136,7 +133,6 @@ impl Config {
         Ok(())
     }
 
-    /// Validate configuration
     pub fn validate(&self) -> Result<()> {
         if self.simulation.duration <= 0.0 {
             return Err(Error::InvalidParameter(
@@ -159,7 +155,6 @@ impl Config {
         Ok(())
     }
 
-    /// Generate a template configuration
     pub fn generate_template(template_type: &str) -> Result<Self> {
         match template_type {
             "driven_tls" => Ok(Self::driven_tls_template()),

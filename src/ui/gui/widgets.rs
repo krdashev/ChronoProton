@@ -1,6 +1,4 @@
-//! Custom GUI widgets
 
-/// Parameter control widget
 pub struct ParameterWidget;
 
 impl ParameterWidget {

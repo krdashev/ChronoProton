@@ -1,4 +1,3 @@
-//! Integration tests for driven two-level system
 
 #[cfg(test)]
 mod tests {

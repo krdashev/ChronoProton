@@ -1,8 +1,6 @@
-//! Job scheduling for parameter sweeps
 
 use crate::utils::Result;
 
-/// Job scheduler for managing multiple simulations
 pub struct Scheduler {
     max_concurrent: usize,
 }

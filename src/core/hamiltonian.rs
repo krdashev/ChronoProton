@@ -1,28 +1,22 @@
-//! Hamiltonian trait and implementations
 
 use ndarray::Array2;
 use num_complex::Complex64;
 use crate::utils::Result;
 
-/// Trait for time-dependent Hamiltonians
 pub trait Hamiltonian: Send + Sync {
-    /// Dimension of the Hilbert space
+
     fn dim(&self) -> usize;
 
-    /// Compute the Hamiltonian at time t and store in output matrix
     fn compute(&self, t: f64, out: &mut Array2<Complex64>);
 
-    /// Check if the Hamiltonian is time-independent
     fn is_time_independent(&self) -> bool {
         false
     }
 
-    /// Get the period for time-periodic Hamiltonians (None if aperiodic)
     fn period(&self) -> Option<f64> {
         None
     }
 
-    /// Validate that the Hamiltonian is properly formed
     fn validate(&self) -> Result<()> {
         use crate::utils::math::is_hermitian;
 
@@ -39,13 +33,12 @@ pub trait Hamiltonian: Send + Sync {
     }
 }
 
-/// Time-independent Hamiltonian wrapper
 pub struct TimeIndependentHamiltonian {
     matrix: Array2<Complex64>,
 }
 
 impl TimeIndependentHamiltonian {
-    /// Create a new time-independent Hamiltonian
+
     pub fn new(matrix: Array2<Complex64>) -> Self {
         Self { matrix }
     }
@@ -65,14 +58,13 @@ impl Hamiltonian for TimeIndependentHamiltonian {
     }
 }
 
-/// Sum of multiple Hamiltonians
 pub struct CompositeHamiltonian {
     terms: Vec<Box<dyn Hamiltonian>>,
     dim: usize,
 }
 
 impl CompositeHamiltonian {
-    /// Create a new composite Hamiltonian
+
     pub fn new(terms: Vec<Box<dyn Hamiltonian>>) -> Result<Self> {
         if terms.is_empty() {
             return Err(crate::utils::Error::Hamiltonian(

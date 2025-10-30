@@ -1,13 +1,9 @@
-//! Coupled cavity arrays (SSH model and generalizations)
 
 use ndarray::Array2;
 use num_complex::Complex64;
 use crate::core::Hamiltonian;
 use crate::utils::Result;
 
-/// Coupled cavity array Hamiltonian
-///
-/// H = Σ_i ωc a†_i a_i + Σ_<i,j> J_ij (a†_i a_j + h.c.)
 pub struct CoupledCavities {
     pub omega_c: f64,
     pub couplings: Vec<f64>,
@@ -15,7 +11,7 @@ pub struct CoupledCavities {
 }
 
 impl CoupledCavities {
-    /// Create SSH-type coupled cavities (alternating couplings)
+
     pub fn ssh(omega_c: f64, j1: f64, j2: f64, num_cavities: usize) -> Self {
         let mut couplings = Vec::new();
         for i in 0..num_cavities - 1 {
@@ -29,7 +25,6 @@ impl CoupledCavities {
         }
     }
 
-    /// Create uniform coupling
     pub fn uniform(omega_c: f64, j: f64, num_cavities: usize) -> Self {
         Self {
             omega_c,
@@ -41,22 +36,19 @@ impl CoupledCavities {
 
 impl Hamiltonian for CoupledCavities {
     fn dim(&self) -> usize {
-        // Simplified: single excitation subspace
+
         self.num_cavities + 1
     }
 
     fn compute(&self, _t: f64, out: &mut Array2<Complex64>) {
         out.fill(Complex64::new(0.0, 0.0));
 
-        // Ground state
         out[[0, 0]] = Complex64::new(0.0, 0.0);
 
-        // Single excitation states
         for i in 1..=self.num_cavities {
             out[[i, i]] = Complex64::new(self.omega_c, 0.0);
         }
 
-        // Couplings
         for (idx, &j) in self.couplings.iter().enumerate() {
             let i = idx + 1;
             let j_next = i + 1;

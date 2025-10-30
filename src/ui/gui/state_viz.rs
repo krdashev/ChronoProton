@@ -1,6 +1,4 @@
-//! Quantum state visualization (Bloch sphere, density matrix, etc.)
 
-/// Bloch sphere visualization
 pub struct BlochSphereWidget;
 
 impl BlochSphereWidget {
@@ -15,7 +13,6 @@ impl Default for BlochSphereWidget {
     }
 }
 
-/// Density matrix Hinton diagram
 pub struct HintonWidget;
 
 impl HintonWidget {
