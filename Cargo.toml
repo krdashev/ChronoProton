@@ -5,7 +5,7 @@ edition = "2021"
 authors = ["ChronoPhoton Contributors"]
 description = "GPU-accelerated simulator for photonic time crystals and Floquet quantum systems"
 license = "MIT OR Apache-2.0"
-repository = "https://github.com/yourusername/chronophoton"
+repository = "https://github.com/krdashev/chronophoton"
 keywords = ["quantum", "photonics", "gpu", "floquet", "simulation"]
 categories = ["science", "simulation"]
 

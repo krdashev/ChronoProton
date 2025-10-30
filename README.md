@@ -2,7 +2,7 @@
 
 **GPU-Accelerated Simulator for Photonic Time Crystals and Floquet Quantum Systems**
 
-[![CI](https://github.com/krdashev/ChronoProton/actions/workflows/ci.yml/badge.svg)](https://github.com/krdashev/ChronoProton/actions/workflows/ci.yml)
+[![CI](https://github.com/krdashev/ChronoPhoton/actions/workflows/ci.yml/badge.svg)](https://github.com/krdashev/ChronoPhoton/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-MIT%2FApache--2.0-blue.svg)](LICENSE)
 [![Docs](https://img.shields.io/badge/docs-latest-blue.svg)](https://docs.rs/chronophoton)
 
@@ -72,7 +72,6 @@ results.plot("population")?;
 - [User Guide](docs/user_guide.md)
 - [API Reference](https://docs.rs/chronophoton)
 - [Architecture Overview](docs/architecture.md)
-- [Complete Specification](claude.md)
 
 ## Use Cases
 
