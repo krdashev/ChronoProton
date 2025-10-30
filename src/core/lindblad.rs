@@ -66,7 +66,7 @@ impl LindbladSolver {
     }
 
     pub fn compute_derivative(&self, rho: &DensityMatrix, t: f64) -> Result<Array2<Complex64>> {
-        let mut drho_dt = Array2::zeros((self.dim, self.dim));
+        let mut drho_dt;
 
         let mut h = Array2::zeros((self.dim, self.dim));
         self.hamiltonian.compute(t, &mut h);
@@ -157,15 +157,15 @@ impl LindbladSolver {
     pub fn step(&self, rho: &mut DensityMatrix, t: f64, dt: f64) -> Result<()> {
         let k1 = self.compute_derivative(rho, t)?;
 
-        let mut rho2_data = rho.data().clone() + &k1.mapv(|x| x * Complex64::new(dt / 2.0, 0.0));
+        let rho2_data = rho.data().clone() + &k1.mapv(|x| x * Complex64::new(dt / 2.0, 0.0));
         let rho2 = DensityMatrix::new_unchecked(rho2_data.clone());
         let k2 = self.compute_derivative(&rho2, t + dt / 2.0)?;
 
-        let mut rho3_data = rho.data().clone() + &k2.mapv(|x| x * Complex64::new(dt / 2.0, 0.0));
+        let rho3_data = rho.data().clone() + &k2.mapv(|x| x * Complex64::new(dt / 2.0, 0.0));
         let rho3 = DensityMatrix::new_unchecked(rho3_data.clone());
         let k3 = self.compute_derivative(&rho3, t + dt / 2.0)?;
 
-        let mut rho4_data = rho.data().clone() + &k3.mapv(|x| x * Complex64::new(dt, 0.0));
+        let rho4_data = rho.data().clone() + &k3.mapv(|x| x * Complex64::new(dt, 0.0));
         let rho4 = DensityMatrix::new_unchecked(rho4_data.clone());
         let k4 = self.compute_derivative(&rho4, t + dt)?;
 

@@ -1,4 +1,4 @@
-use crate::utils::{Error, Result};
+use crate::utils::Result;
 
 #[derive(Debug, Clone)]
 pub struct GpuDevice {
@@ -16,8 +16,10 @@ pub enum BackendType {
     Cpu,
 }
 
+#[derive(Default)]
 pub struct GpuBackend {
     device: Option<wgpu::Device>,
+    #[allow(dead_code)]
     queue: Option<wgpu::Queue>,
     enabled: bool,
 }
@@ -54,12 +56,3 @@ impl GpuBackend {
     }
 }
 
-impl Default for GpuBackend {
-    fn default() -> Self {
-        Self {
-            device: None,
-            queue: None,
-            enabled: false,
-        }
-    }
-}

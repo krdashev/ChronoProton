@@ -1,5 +1,4 @@
 use crate::core::Hamiltonian;
-use crate::utils::Result;
 use ndarray::Array2;
 use num_complex::Complex64;
 

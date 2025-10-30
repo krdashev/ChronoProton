@@ -1,6 +1,6 @@
-use crate::core::{Hamiltonian, Integrator, IntegratorType, Observable, QuantumState};
+use crate::core::{Hamiltonian, IntegratorType, Observable, QuantumState};
 use crate::data::Config;
-use crate::simulation::{SimulationResults, SimulationRunner};
+use crate::simulation::SimulationRunner;
 use crate::utils::{Error, Result};
 
 pub struct SimulationBuilder {

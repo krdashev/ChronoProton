@@ -89,6 +89,7 @@ impl Observable for NumberOperator {
 
 pub struct PopulationOperator {
     matrix: Array2<Complex64>,
+    #[allow(dead_code)]
     level: usize,
 }
 

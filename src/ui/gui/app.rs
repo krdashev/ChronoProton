@@ -37,7 +37,7 @@ impl eframe::App for App {
                 ui.label("No configuration loaded");
             }
 
-            if ui.button("Load Configuration").clicked() {}
+            ui.button("Load Configuration").clicked();
 
             if ui.button("Run Simulation").clicked() {}
         });

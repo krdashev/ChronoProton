@@ -9,6 +9,7 @@ pub struct SimulationRunner {
     timestep: f64,
     integrator: Box<dyn crate::core::Integrator>,
     observables: Vec<(String, Box<dyn Observable>)>,
+    #[allow(dead_code)]
     gpu_enabled: bool,
 }
 

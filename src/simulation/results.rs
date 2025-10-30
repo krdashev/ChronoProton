@@ -18,7 +18,7 @@ impl SimulationResults {
     pub fn add_observable(&mut self, name: &str, time: f64, value: Complex64) {
         self.observables
             .entry(name.to_string())
-            .or_insert_with(Vec::new)
+            .or_default()
             .push((time, value));
     }
 

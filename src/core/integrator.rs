@@ -105,7 +105,11 @@ fn apply_hamiltonian(h: &Array2<Complex64>, state: &QuantumState) -> ndarray::Ar
 
 fn add_scaled_to_state(state: &mut QuantumState, delta: &ndarray::Array1<Complex64>, scale: f64) {
     let scaled_delta = delta.mapv(|x| x * Complex64::new(scale, 0.0));
-    let data = state.data().to_owned() + &scaled_delta;
+    let mut data = state.data().to_owned() + &scaled_delta;
+
+    let norm: f64 = data.iter().map(|x| x.norm_sqr()).sum::<f64>().sqrt();
+    data.mapv_inplace(|x| x / norm);
+
     *state = QuantumState::new(data).unwrap();
 }
 

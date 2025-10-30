@@ -12,7 +12,7 @@ pub struct FloquetSpectrum {
 }
 
 impl FloquetSpectrum {
-    pub fn compute(hamiltonian: &dyn Hamiltonian, period: f64, num_steps: usize) -> Result<Self> {
+    pub fn compute(hamiltonian: &dyn Hamiltonian, _period: f64, _num_steps: usize) -> Result<Self> {
         if !hamiltonian.is_time_independent() && hamiltonian.period().is_none() {
             return Err(Error::InvalidParameter(
                 "Hamiltonian must be time-periodic for Floquet analysis".to_string(),
