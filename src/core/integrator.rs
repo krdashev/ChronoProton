@@ -1,12 +1,10 @@
-
-use ndarray::Array2;
-use num_complex::Complex64;
 use crate::core::{Hamiltonian, QuantumState};
 use crate::utils::Result;
+use ndarray::Array2;
+use num_complex::Complex64;
 
 #[derive(Debug, Clone, Copy)]
 pub enum IntegratorType {
-
     RK4,
 
     Magnus2,
@@ -15,7 +13,6 @@ pub enum IntegratorType {
 }
 
 pub trait Integrator: Send + Sync {
-
     fn step(
         &self,
         hamiltonian: &dyn Hamiltonian,
@@ -106,11 +103,7 @@ fn apply_hamiltonian(h: &Array2<Complex64>, state: &QuantumState) -> ndarray::Ar
     result
 }
 
-fn add_scaled_to_state(
-    state: &mut QuantumState,
-    delta: &ndarray::Array1<Complex64>,
-    scale: f64,
-) {
+fn add_scaled_to_state(state: &mut QuantumState, delta: &ndarray::Array1<Complex64>, scale: f64) {
     let scaled_delta = delta.mapv(|x| x * Complex64::new(scale, 0.0));
     let data = state.data().to_owned() + &scaled_delta;
     *state = QuantumState::new(data).unwrap();
@@ -119,10 +112,7 @@ fn add_scaled_to_state(
 pub fn create_integrator(integrator_type: IntegratorType) -> Box<dyn Integrator> {
     match integrator_type {
         IntegratorType::RK4 => Box::new(RK4Integrator::new()),
-        IntegratorType::Magnus2 | IntegratorType::Magnus4 => {
-
-            Box::new(RK4Integrator::new())
-        }
+        IntegratorType::Magnus2 | IntegratorType::Magnus4 => Box::new(RK4Integrator::new()),
     }
 }
 
@@ -134,7 +124,6 @@ mod tests {
 
     #[test]
     fn test_rk4_conserves_norm() {
-
         let mut h = Array2::zeros((2, 2));
         h[[0, 1]] = Complex64::new(1.0, 0.0);
         h[[1, 0]] = Complex64::new(1.0, 0.0);
@@ -143,7 +132,9 @@ mod tests {
         let mut state = QuantumState::ground_state(2);
 
         let integrator = RK4Integrator::new();
-        integrator.step(&hamiltonian, &mut state, 0.0, 0.01).unwrap();
+        integrator
+            .step(&hamiltonian, &mut state, 0.0, 0.01)
+            .unwrap();
 
         let norm_sq: f64 = state.data().iter().map(|x| x.norm_sqr()).sum();
         assert_relative_eq!(norm_sq, 1.0, epsilon = 1e-10);

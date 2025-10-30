@@ -1,4 +1,3 @@
-
 pub mod app;
 pub mod plots;
 pub mod state_viz;

@@ -1,4 +1,3 @@
-
 use crate::core::{integrator, Hamiltonian, IntegratorType, Observable, QuantumState};
 use crate::simulation::SimulationResults;
 use crate::utils::Result;

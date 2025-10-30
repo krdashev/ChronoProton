@@ -1,4 +1,3 @@
-
 use thiserror::Error;
 
 pub type Result<T> = std::result::Result<T, Error>;
@@ -40,7 +39,6 @@ pub enum Error {
 }
 
 impl Error {
-
     pub fn config(msg: impl Into<String>) -> Self {
         Error::Config(msg.into())
     }

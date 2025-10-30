@@ -1,10 +1,8 @@
-
+use crate::utils::Result;
 use ndarray::Array2;
 use num_complex::Complex64;
-use crate::utils::Result;
 
 pub trait Hamiltonian: Send + Sync {
-
     fn dim(&self) -> usize;
 
     fn compute(&self, t: f64, out: &mut Array2<Complex64>);
@@ -38,7 +36,6 @@ pub struct TimeIndependentHamiltonian {
 }
 
 impl TimeIndependentHamiltonian {
-
     pub fn new(matrix: Array2<Complex64>) -> Self {
         Self { matrix }
     }
@@ -64,7 +61,6 @@ pub struct CompositeHamiltonian {
 }
 
 impl CompositeHamiltonian {
-
     pub fn new(terms: Vec<Box<dyn Hamiltonian>>) -> Result<Self> {
         if terms.is_empty() {
             return Err(crate::utils::Error::Hamiltonian(

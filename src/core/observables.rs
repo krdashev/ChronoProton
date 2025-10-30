@@ -1,11 +1,9 @@
-
+use crate::core::{DensityMatrix, QuantumState};
+use crate::utils::Result;
 use ndarray::Array2;
 use num_complex::Complex64;
-use crate::core::{QuantumState, DensityMatrix};
-use crate::utils::Result;
 
 pub trait Observable: Send + Sync {
-
     fn dim(&self) -> usize;
 
     fn matrix(&self) -> &Array2<Complex64>;

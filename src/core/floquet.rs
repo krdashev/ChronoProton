@@ -1,11 +1,9 @@
-
-use ndarray::Array2;
-use num_complex::Complex64;
 use crate::core::Hamiltonian;
 use crate::utils::{Error, Result};
+use ndarray::Array2;
+use num_complex::Complex64;
 
 pub struct FloquetSpectrum {
-
     pub quasi_energies: Vec<f64>,
 
     pub modes: Array2<Complex64>,
@@ -14,7 +12,6 @@ pub struct FloquetSpectrum {
 }
 
 impl FloquetSpectrum {
-
     pub fn compute(hamiltonian: &dyn Hamiltonian, period: f64, num_steps: usize) -> Result<Self> {
         if !hamiltonian.is_time_independent() && hamiltonian.period().is_none() {
             return Err(Error::InvalidParameter(
@@ -22,7 +19,9 @@ impl FloquetSpectrum {
             ));
         }
 
-        Err(Error::NotImplemented("FloquetSpectrum::compute".to_string()))
+        Err(Error::NotImplemented(
+            "FloquetSpectrum::compute".to_string(),
+        ))
     }
 
     pub fn num_levels(&self) -> usize {
@@ -39,7 +38,6 @@ impl FloquetSpectrum {
 }
 
 pub struct FloquetHamiltonian {
-
     pub n_fourier: usize,
 
     hamiltonian: Box<dyn Hamiltonian>,
@@ -48,7 +46,6 @@ pub struct FloquetHamiltonian {
 }
 
 impl FloquetHamiltonian {
-
     pub fn new(hamiltonian: Box<dyn Hamiltonian>, omega: f64, n_fourier: usize) -> Self {
         Self {
             n_fourier,
@@ -62,7 +59,6 @@ impl FloquetHamiltonian {
     }
 
     pub fn compute_extended(&self) -> Result<Array2<Complex64>> {
-
         Err(Error::NotImplemented(
             "FloquetHamiltonian::compute_extended".to_string(),
         ))

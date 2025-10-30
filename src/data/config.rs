@@ -1,7 +1,6 @@
-
+use crate::utils::{Error, Result};
 use serde::{Deserialize, Serialize};
 use std::path::Path;
-use crate::utils::{Error, Result};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Config {
@@ -105,7 +104,6 @@ pub struct ParameterSweepConfig {
 }
 
 impl Config {
-
     pub fn from_file(path: &Path) -> Result<Self> {
         let contents = std::fs::read_to_string(path)?;
 

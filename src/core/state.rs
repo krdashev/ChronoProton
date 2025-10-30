@@ -1,7 +1,6 @@
-
+use crate::utils::{Error, Result};
 use ndarray::{Array1, Array2};
 use num_complex::Complex64;
-use crate::utils::{Error, Result};
 
 #[derive(Clone, Debug)]
 pub struct QuantumState {
@@ -9,7 +8,6 @@ pub struct QuantumState {
 }
 
 impl QuantumState {
-
     pub fn new(data: Array1<Complex64>) -> Result<Self> {
         let norm_sq: f64 = data.iter().map(|x| x.norm_sqr()).sum();
         if (norm_sq - 1.0).abs() > 1e-10 {
@@ -70,7 +68,6 @@ pub struct DensityMatrix {
 }
 
 impl DensityMatrix {
-
     pub fn new(data: Array2<Complex64>) -> Result<Self> {
         use crate::utils::math::{is_hermitian, trace};
 
@@ -145,7 +142,6 @@ impl DensityMatrix {
     }
 
     pub fn von_neumann_entropy(&self) -> Result<f64> {
-
         Err(Error::NotImplemented("von_neumann_entropy".to_string()))
     }
 }

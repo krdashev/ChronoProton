@@ -1,4 +1,3 @@
-
 use tracing_subscriber::{fmt, prelude::*, EnvFilter};
 
 pub fn init() -> anyhow::Result<()> {

@@ -1,4 +1,3 @@
-
 pub struct PlotWidget;
 
 impl PlotWidget {

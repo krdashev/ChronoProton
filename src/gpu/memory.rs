@@ -1,4 +1,3 @@
-
 use crate::utils::Result;
 
 pub struct GpuBuffer {
@@ -21,9 +20,7 @@ pub struct GpuMemoryPool {
 
 impl GpuMemoryPool {
     pub fn new() -> Self {
-        Self {
-            total_allocated: 0,
-        }
+        Self { total_allocated: 0 }
     }
 
     pub fn allocate(&mut self, size_bytes: usize) -> Result<GpuBuffer> {

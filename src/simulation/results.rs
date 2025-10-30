@@ -1,8 +1,7 @@
-
+use crate::utils::Result;
 use num_complex::Complex64;
 use std::collections::HashMap;
 use std::path::Path;
-use crate::utils::Result;
 
 #[derive(Debug, Clone)]
 pub struct SimulationResults {
@@ -32,7 +31,6 @@ impl SimulationResults {
     }
 
     pub fn save(&self, _path: &Path) -> Result<()> {
-
         Err(crate::utils::Error::NotImplemented(
             "SimulationResults::save".to_string(),
         ))

@@ -1,6 +1,5 @@
-
 use chronophoton::core::systems::DrivenTLS;
-use chronophoton::core::{QuantumState, IntegratorType};
+use chronophoton::core::{IntegratorType, QuantumState};
 use chronophoton::simulation::SimulationBuilder;
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
 

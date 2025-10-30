@@ -1,4 +1,3 @@
-
 use crate::utils::{Error, Result};
 
 #[derive(Debug, Clone)]
@@ -24,7 +23,6 @@ pub struct GpuBackend {
 }
 
 impl GpuBackend {
-
     pub async fn new(enabled: bool) -> Result<Self> {
         if !enabled {
             return Ok(Self {
@@ -48,7 +46,6 @@ impl GpuBackend {
     }
 
     pub async fn available_devices() -> Result<Vec<GpuDevice>> {
-
         Ok(vec![GpuDevice {
             name: "CPU Fallback".to_string(),
             backend_type: BackendType::Cpu,

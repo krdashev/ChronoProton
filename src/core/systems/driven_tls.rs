@@ -1,7 +1,6 @@
-
+use crate::core::Hamiltonian;
 use ndarray::Array2;
 use num_complex::Complex64;
-use crate::core::Hamiltonian;
 
 pub struct DrivenTLS {
     pub omega_0: f64,
@@ -11,7 +10,6 @@ pub struct DrivenTLS {
 }
 
 impl DrivenTLS {
-
     pub fn new(omega_0: f64, omega_d: f64, rabi_freq: f64) -> Self {
         Self {
             omega_0,

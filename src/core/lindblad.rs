@@ -1,18 +1,15 @@
-
+use crate::core::{DensityMatrix, Hamiltonian};
+use crate::utils::Result;
 use ndarray::Array2;
 use num_complex::Complex64;
-use crate::core::{Hamiltonian, DensityMatrix};
-use crate::utils::Result;
 
 pub struct LindbladOperator {
-
     pub operator: Array2<Complex64>,
 
     pub rate: f64,
 }
 
 impl LindbladOperator {
-
     pub fn new(operator: Array2<Complex64>, rate: f64) -> Result<Self> {
         if rate < 0.0 {
             return Err(crate::utils::Error::InvalidParameter(
@@ -46,7 +43,6 @@ pub struct LindbladSolver {
 }
 
 impl LindbladSolver {
-
     pub fn new(
         hamiltonian: Box<dyn Hamiltonian>,
         lindblad_ops: Vec<LindbladOperator>,
@@ -69,11 +65,7 @@ impl LindbladSolver {
         })
     }
 
-    pub fn compute_derivative(
-        &self,
-        rho: &DensityMatrix,
-        t: f64,
-    ) -> Result<Array2<Complex64>> {
+    pub fn compute_derivative(&self, rho: &DensityMatrix, t: f64) -> Result<Array2<Complex64>> {
         let mut drho_dt = Array2::zeros((self.dim, self.dim));
 
         let mut h = Array2::zeros((self.dim, self.dim));

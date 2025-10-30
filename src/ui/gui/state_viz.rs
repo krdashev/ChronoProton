@@ -1,4 +1,3 @@
-
 pub struct BlochSphereWidget;
 
 impl BlochSphereWidget {

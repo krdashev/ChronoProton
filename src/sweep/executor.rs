@@ -1,4 +1,3 @@
-
 use crate::utils::Result;
 
 pub struct ParameterSweep {

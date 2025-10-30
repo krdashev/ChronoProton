@@ -1,8 +1,7 @@
-
-use ndarray::Array2;
-use num_complex::Complex64;
 use crate::core::Hamiltonian;
 use crate::utils::Result;
+use ndarray::Array2;
+use num_complex::Complex64;
 
 pub struct CoupledCavities {
     pub omega_c: f64,
@@ -11,7 +10,6 @@ pub struct CoupledCavities {
 }
 
 impl CoupledCavities {
-
     pub fn ssh(omega_c: f64, j1: f64, j2: f64, num_cavities: usize) -> Self {
         let mut couplings = Vec::new();
         for i in 0..num_cavities - 1 {
@@ -36,7 +34,6 @@ impl CoupledCavities {
 
 impl Hamiltonian for CoupledCavities {
     fn dim(&self) -> usize {
-
         self.num_cavities + 1
     }
 

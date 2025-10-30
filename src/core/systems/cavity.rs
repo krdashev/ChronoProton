@@ -1,7 +1,6 @@
-
+use crate::core::Hamiltonian;
 use ndarray::Array2;
 use num_complex::Complex64;
-use crate::core::Hamiltonian;
 
 pub struct DrivenCavity {
     pub omega_c: f64,
@@ -11,7 +10,6 @@ pub struct DrivenCavity {
 }
 
 impl DrivenCavity {
-
     pub fn new(omega_c: f64, omega_p: f64, g: f64, dim: usize) -> Self {
         Self {
             omega_c,

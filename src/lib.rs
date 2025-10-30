@@ -1,4 +1,3 @@
-
 pub mod core;
 pub mod data;
 pub mod gpu;
@@ -6,12 +5,6 @@ pub mod simulation;
 pub mod sweep;
 pub mod ui;
 pub mod utils;
-
-#[cfg(feature = "plugin")]
-pub mod plugin;
-
-#[cfg(feature = "python")]
-pub mod bindings;
 
 pub mod prelude {
     pub use crate::core::{

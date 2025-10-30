@@ -1,4 +1,3 @@
-
 use crate::core::{Hamiltonian, Integrator, IntegratorType, Observable, QuantumState};
 use crate::data::Config;
 use crate::simulation::{SimulationResults, SimulationRunner};
@@ -95,7 +94,6 @@ impl SimulationBuilder {
     }
 
     pub fn from_config(_config: &Config) -> Result<SimulationRunner> {
-
         Err(Error::NotImplemented("from_config".to_string()))
     }
 }

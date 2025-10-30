@@ -1,4 +1,3 @@
-
 use crate::utils::Result;
 use bincode::{Decode, Encode};
 use serde::{Deserialize, Serialize};
@@ -8,11 +7,9 @@ use std::path::Path;
 pub struct Checkpoint {
     pub time: f64,
     pub step: usize,
-
 }
 
 impl Checkpoint {
-
     pub fn save(&self, path: &Path) -> Result<()> {
         let config = bincode::config::standard();
         let data = bincode::encode_to_vec(self, config)
